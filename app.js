@@ -99,7 +99,7 @@ const getSentimentScore = (paragraph) => {
 const drawChart = async () => {
   const data = await fetchData();
 
-let lineData = [];
+  let lineData = [];
 
 lineData = data.map((sentence, index) => {
   return {
