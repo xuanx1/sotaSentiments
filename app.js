@@ -13,6 +13,67 @@ document.head.appendChild(sentimentScript);
 sentimentScript.onload = () => {
   window.sentiment = new Sentiment();
   // Call drawChart after the sentiment library is loaded
+
+  // Loading screen to camouflage parsing time --------------------------------------------
+const loadingScreen = d3.select("body")
+.append("div")
+.attr("class", "loading-screen")
+.style("position", "fixed")
+.style("top", 0)
+.style("left", 0)
+.style("width", "100%")
+.style("height", "100%")
+.style("background", "#373737")
+.style("display", "flex")
+.style("justify-content", "center")
+.style("align-items", "center")
+.style("z-index", 1000);
+
+// Add text clipping mask and loading wave animation
+const waveText = loadingScreen.append("div")
+.style("color", "white")
+.style("font-size", "14px")
+.style("font-family", "'Open Sans', sans-serif")
+.style("font-weight", "bold")
+.style("position", "relative")
+.style("overflow", "hidden")
+.style("width", "200px")
+.style("height", "50px")
+.style("text-align", "center")
+.style("line-height", "50px")
+.style("padding", "10px")
+.text("Analysing Sentiment...");
+
+waveText.append("div")
+.style("position", "absolute")
+.style("top", "0")
+.style("left", "-200px")
+.style("width", "200px")
+.style("height", "6px")
+.style("background", "linear-gradient(to right, #e85347 0%, rgba(255, 255, 255, 0.2) 50%, #188d8d 100%)")
+.style("border-radius", "10px") // Add rounded edges
+.style("animation", "wave 2s infinite linear");
+
+d3.select("head").append("style").text(`
+@keyframes wave {
+  0% { left: -200px; }
+  50% { left: 100px; }
+  100% { left: -200px; }
+}
+`);
+
+// fade loading screen off
+const hideLoadingScreen = () => {
+loadingScreen.transition()
+  .duration(2000)
+  .style("opacity", 0)
+  .on("end", () => loadingScreen.remove());
+};
+// Remove this call as it is now handled in sentimentScript.onload
+// drawChart().then(hideLoadingScreen);
+// Call hideLoadingScreen after the chart is drawn
+// drawChart().then(hideLoadingScreen);
+//--------------------------------------------
   drawChart().then(hideLoadingScreen);
 };
 
@@ -376,66 +437,7 @@ const drawChart = async () => {
 };
 
 
-// Loading screen to camouflage parsing time --------------------------------------------
-const loadingScreen = d3.select("body")
-  .append("div")
-  .attr("class", "loading-screen")
-  .style("position", "fixed")
-  .style("top", 0)
-  .style("left", 0)
-  .style("width", "100%")
-  .style("height", "100%")
-  .style("background", "#373737")
-  .style("display", "flex")
-  .style("justify-content", "center")
-  .style("align-items", "center")
-  .style("z-index", 1000);
 
-// Add text clipping mask and loading wave animation
-const waveText = loadingScreen.append("div")
-  .style("color", "white")
-  .style("font-size", "14px")
-  .style("font-family", "'Open Sans', sans-serif")
-  .style("font-weight", "bold")
-  .style("position", "relative")
-  .style("overflow", "hidden")
-  .style("width", "200px")
-  .style("height", "50px")
-  .style("text-align", "center")
-  .style("line-height", "50px")
-  .style("padding", "10px")
-  .text("Analysing Sentiment...");
-
-waveText.append("div")
-  .style("position", "absolute")
-  .style("top", "0")
-  .style("left", "-200px")
-  .style("width", "200px")
-  .style("height", "6px")
-  .style("background", "linear-gradient(to right, #e85347 0%, rgba(255, 255, 255, 0.2) 50%, #188d8d 100%)")
-  .style("border-radius", "10px") // Add rounded edges
-  .style("animation", "wave 2s infinite linear");
-
-d3.select("head").append("style").text(`
-  @keyframes wave {
-    0% { left: -200px; }
-    50% { left: 100px; }
-    100% { left: -200px; }
-  }
-`);
-
-// fade loading screen off
-const hideLoadingScreen = () => {
-  loadingScreen.transition()
-    .duration(2000)
-    .style("opacity", 0)
-    .on("end", () => loadingScreen.remove());
-};
-// Remove this call as it is now handled in sentimentScript.onload
-// drawChart().then(hideLoadingScreen);
-// Call hideLoadingScreen after the chart is drawn
-// drawChart().then(hideLoadingScreen);
-//--------------------------------------------
 
 
 //viz title
