@@ -12,6 +12,8 @@ document.head.appendChild(sentimentScript);
 
 sentimentScript.onload = () => {
   window.sentiment = new Sentiment();
+  // Call drawChart after the sentiment library is loaded
+  drawChart().then(hideLoadingScreen);
 };
 
 
@@ -429,8 +431,8 @@ const hideLoadingScreen = () => {
     .style("opacity", 0)
     .on("end", () => loadingScreen.remove());
 };
-
-
+// Remove this call as it is now handled in sentimentScript.onload
+// drawChart().then(hideLoadingScreen);
 // Call hideLoadingScreen after the chart is drawn
 drawChart().then(hideLoadingScreen);
 //--------------------------------------------
