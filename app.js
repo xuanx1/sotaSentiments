@@ -82,7 +82,7 @@ const getSentimentScore = (paragraph) => {
   const stopWords = new Set(RiTa.STOP_WORDS);
   const filteredWords = paragraph.split(' ').filter(word => !stopWords.has(word.toLowerCase()));
   const filteredParagraph = filteredWords.join(' ');
-  const result = sentiment.analyze(filteredParagraph);
+  const result = window.sentiment.analyze(filteredParagraph);
   console.log(result);
   return result.score;
 };
