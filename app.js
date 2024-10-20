@@ -6,7 +6,7 @@
 
 //OR verbs vs nouns - translate into call to action vs reference, ignore stop words
 
-import Sentiment from 'sentiment';
+
 const margin = { top: 30, right: 50, bottom: 30, left: 80 };
 
 
