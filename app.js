@@ -434,7 +434,7 @@ const hideLoadingScreen = () => {
 // Remove this call as it is now handled in sentimentScript.onload
 // drawChart().then(hideLoadingScreen);
 // Call hideLoadingScreen after the chart is drawn
-drawChart().then(hideLoadingScreen);
+// drawChart().then(hideLoadingScreen);
 //--------------------------------------------
 
 
