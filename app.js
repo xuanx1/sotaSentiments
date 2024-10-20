@@ -5,7 +5,15 @@
 //add scrolling side ways to show negative sentiment like a stock chart showing losses and gains + animation + roll over window details
 
 //OR verbs vs nouns - translate into call to action vs reference, ignore stop words
+// Load the sentiment library from a CDN
+const sentimentScript = document.createElement('script');
+sentimentScript.src = 'https://cdn.jsdelivr.net/npm/sentiment@5.0.2/build/sentiment.min.js';
+document.head.appendChild(sentimentScript);
 
+sentimentScript.onload = () => {
+const sentiment = new Sentiment();
+// Your existing code that depends on the sentiment library can go here
+};
 const margin = { top: 30, right: 50, bottom: 30, left: 80 };
 
 
