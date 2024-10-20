@@ -84,14 +84,13 @@ const fetchData = async () => {
 
   for (const file of files) {
     try {
-      const text = await d3.text(`/aggregated_sota/${file}`);
+      const text = await d3.text(`https://github.com/xuanx1/sotaSentiments/tree/d65ece3c13d1063c6a39e08ac72852ccdfceed7d/aggregated_SOTA/${file}`);
       allText += text + '\n\n'; // Add double newline to separate paragraphs
       console.log(`Fetched file ${file}`);
     } catch (error) {
       console.error(`Error fetching file ${file}:`, error);
     }
   }
-
   return allText.split('\n\n').filter(paragraph => paragraph.trim() !== '');
 };
 
