@@ -95,7 +95,6 @@ const getSentimentScore = (paragraph) => {
   return result.score;
 };
 
-
 // Draw the sentiment chart using D3
 const drawChart = async () => {
   const data = await fetchData();
@@ -106,6 +105,58 @@ const drawChart = async () => {
       score: getSentimentScore(sentence),
     };
   });
+
+  // x and "y" axises
+  const width = 7000; // fit all presidents
+  const height = 700;
+
+  // bg color
+  d3.select('body')
+    .style('background-color', 'beige');
+
+  const xScale = d3.scaleLinear()
+    .domain([0, lineData.length - 1])
+    .range([margin.left, width - margin.right]);
+
+  const yScale = d3.scaleLinear()
+    .domain([d3.min(lineData, d => d.score) * 0.5, d3.max(lineData, d => d.score) * 1])
+    .nice()
+    .range([height - margin.bottom, margin.top]);
+
+  // Create line generator function
+  const lineGenerator = d3.line()
+    .x((d, i) => xScale(i))
+    .y(d => yScale(d.score))
+    .curve(d3.curveMonotoneX); // Smooth lines
+
+  // Create SVG container with scrolling
+  const svg = d3.select('#app')
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .style('overflow-x', 'scroll');
+
+  // Draw the sentiment line
+  svg.append('path')
+    .datum(lineData)
+    .attr('fill', 'none')
+    .attr('stroke', 'black')
+    .attr('stroke-width', 0.5)
+    .attr('d', lineGenerator);
+
+  // Draw colored segments for positive and negative sentiment
+  lineData.forEach((d, i) => {
+    if (i > 0) {
+      svg.append('line')
+        .attr('x1', xScale(i - 1))
+        .attr('y1', yScale(lineData[i - 1].score))
+        .attr('x2', xScale(i))
+        .attr('y2', yScale(d.score))
+        .attr('stroke', d.score >= 0 ? '#188d8d' : '#e95247')
+        .attr('stroke-width', 1);
+    }
+  });
+};
 
   // x and "y" axises
   const width = 7000; // fit all presidents
