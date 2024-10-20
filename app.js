@@ -7,77 +7,6 @@
 //OR verbs vs nouns - translate into call to action vs reference, ignore stop words
 
 
-// Loading screen to camouflage parsing time --------------------------------------------
-const loadingScreen = d3.select("body")
-  .append("div")
-  .attr("class", "loading-screen")
-  .style("position", "fixed")
-  .style("top", 0)
-  .style("left", 0)
-  .style("width", "100%")
-  .style("height", "100%")
-  .style("background", "#373737")
-  .style("display", "flex")
-  .style("justify-content", "center")
-  .style("align-items", "center")
-  .style("z-index", 1000);
-
-// Add text clipping mask and loading wave animation
-const waveText = loadingScreen.append("div")
-  .style("color", "white")
-  .style("font-size", "14px")
-  .style("font-family", "'Open Sans', sans-serif")
-  .style("font-weight", "bold")
-  .style("position", "relative")
-  .style("overflow", "hidden")
-  .style("width", "200px")
-  .style("height", "50px")
-  .style("text-align", "center")
-  .style("line-height", "50px")
-  .style("padding", "10px")
-  .text("Analysing Sentiment...");
-
-waveText.append("div")
-  .style("position", "absolute")
-  .style("top", "0")
-  .style("left", "-200px")
-  .style("width", "200px")
-  .style("height", "6px")
-  .style("background", "linear-gradient(to right, #e85347 0%, rgba(255, 255, 255, 0.2) 50%, #188d8d 100%)")
-  .style("border-radius", "10px") // Add rounded edges
-  .style("animation", "wave 2s infinite linear");
-
-d3.select("head").append("style").text(`
-  @keyframes wave {
-    0% { left: -200px; }
-    50% { left: 100px; }
-    100% { left: -200px; }
-  }
-`);
-
-// fade loading screen off
-const hideLoadingScreen = () => {
-  loadingScreen.transition()
-    .duration(2000)
-    .style("opacity", 0)
-    .on("end", () => loadingScreen.remove());
-};
-//--------------------------------------------
-
-
-
-// Load the sentiment library from a CDN
-const sentimentScript = document.createElement('script');
-sentimentScript.src = 'https://cdn.jsdelivr.net/npm/sentiment@5.0.2/build/sentiment.min.js';
-document.head.appendChild(sentimentScript);
-
-sentimentScript.onload = () => {
-  window.sentiment = new Sentiment();
-  drawChart(); // Ensure the chart is drawn only after sentiment is loaded
-  hideLoadingScreen(); // Hide loading screen after sentiment is ready
-};
-
-
 const margin = { top: 30, right: 50, bottom: 30, left: 80 };
 
 
@@ -145,7 +74,7 @@ const getSentimentScore = (paragraph) => {
   const stopWords = new Set(RiTa.STOP_WORDS);
   const filteredWords = paragraph.split(' ').filter(word => !stopWords.has(word.toLowerCase()));
   const filteredParagraph = filteredWords.join(' ');
-  const result = window.sentiment.analyze(filteredParagraph);
+  const result = sentiment.analyze(filteredParagraph);
   console.log(result);
   return result.score;
 };
@@ -165,10 +94,6 @@ const fetchData = async () => {
   }
   return allText.split('\n\n').filter(paragraph => paragraph.trim() !== '');
 };
-
-fetchData().then(paragraphs => {
-  console.log(paragraphs);
-});
 
 
 // Draw the sentiment chart using D3
@@ -237,6 +162,44 @@ const drawChart = async () => {
 
   });
 
+
+
+
+// // Draw the sentiment line with a tracing animation
+// const path = svg.append('path')
+// .datum(lineData)
+// .attr('fill', 'none')
+// .attr('stroke', 'grey')
+// .attr('stroke-width', 0.5)
+// .attr('d', lineGenerator)
+// .attr('stroke-dasharray', function() {
+//   const length = this.getTotalLength();
+//   return `${length} ${length}`; 
+// })
+// .attr('stroke-dashoffset', function() {
+//   return this.getTotalLength();
+// })
+// .transition()
+// .delay(2000)
+// .duration(10000) // 10s
+// .ease(d3.easeLinear)
+// .attr('stroke-dashoffset', 0);
+
+// // Call hideLoadingScreen after the animation completes
+// path.on('end', hideLoadingScreen);
+
+// // Draw colored segments for positive and negative sentiment
+// lineData.forEach((d, i) => {
+//   if (i > 0) {
+//     svg.append('line')
+//       .attr('x1', xScale(i - 1))
+//       .attr('y1', yScale(lineData[i - 1].score))
+//       .attr('x2', xScale(i))
+//       .attr('y2', yScale(d.score))
+//       .attr('stroke', d.score >= 0 ? '#188d8d' : '#e95247')
+//       .attr('stroke-width', 1);
+//   }
+// });
 
 
   // x-axis labeled with presidents' names
@@ -397,6 +360,68 @@ const drawChart = async () => {
         .attr('stroke', d => d.score >= 0 ? '#188d8d' : '#e95247');
     });
 };
+
+
+// Loading screen to camouflage parsing time --------------------------------------------
+const loadingScreen = d3.select("body")
+  .append("div")
+  .attr("class", "loading-screen")
+  .style("position", "fixed")
+  .style("top", 0)
+  .style("left", 0)
+  .style("width", "100%")
+  .style("height", "100%")
+  .style("background", "#373737")
+  .style("display", "flex")
+  .style("justify-content", "center")
+  .style("align-items", "center")
+  .style("z-index", 1000);
+
+// Add text clipping mask and loading wave animation
+const waveText = loadingScreen.append("div")
+  .style("color", "white")
+  .style("font-size", "14px")
+  .style("font-family", "'Open Sans', sans-serif")
+  .style("font-weight", "bold")
+  .style("position", "relative")
+  .style("overflow", "hidden")
+  .style("width", "200px")
+  .style("height", "50px")
+  .style("text-align", "center")
+  .style("line-height", "50px")
+  .style("padding", "10px")
+  .text("Analysing Sentiment...");
+
+waveText.append("div")
+  .style("position", "absolute")
+  .style("top", "0")
+  .style("left", "-200px")
+  .style("width", "200px")
+  .style("height", "6px")
+  .style("background", "linear-gradient(to right, #e85347 0%, rgba(255, 255, 255, 0.2) 50%, #188d8d 100%)")
+  .style("border-radius", "10px") // Add rounded edges
+  .style("animation", "wave 2s infinite linear");
+
+d3.select("head").append("style").text(`
+  @keyframes wave {
+    0% { left: -200px; }
+    50% { left: 100px; }
+    100% { left: -200px; }
+  }
+`);
+
+// fade loading screen off
+const hideLoadingScreen = () => {
+  loadingScreen.transition()
+    .duration(2000)
+    .style("opacity", 0)
+    .on("end", () => loadingScreen.remove());
+};
+
+
+// Call hideLoadingScreen after the chart is drawn
+drawChart().then(hideLoadingScreen);
+//--------------------------------------------
 
 
 //viz title
