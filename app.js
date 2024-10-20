@@ -6,8 +6,28 @@
 
 //OR verbs vs nouns - translate into call to action vs reference, ignore stop words
 
+import Sentiment from 'sentiment';
+import * as d3 from 'd3';
+
+const sentiment = new Sentiment();
 
 const margin = { top: 30, right: 50, bottom: 30, left: 80 };
+
+// Fetch data and split into paragraphs
+const fetchData = async () => {
+  let allText = '';
+
+  for (const file of files) {
+    try {
+      const text = await d3.text(`https://raw.githubusercontent.com/xuanx1/sotaSentiments/main/aggregated_SOTA/${file}`);
+      allText += text + '\n\n'; // Add double newline to separate paragraphs
+      console.log(`Fetched file ${file}`);
+    } catch (error) {
+      console.error(`Error fetching file ${file}:`, error);
+    }
+  }
+  return allText.split('\n\n').filter(paragraph => paragraph.trim() !== '');
+};
 
 
 //chronological order of US president 
@@ -77,22 +97,6 @@ const getSentimentScore = (paragraph) => {
   const result = sentiment.analyze(filteredParagraph);
   console.log(result);
   return result.score;
-};
-
-// Fetch data and split into paragraphs
-const fetchData = async () => {
-  let allText = '';
-
-  for (const file of files) {
-    try {
-      const text = await d3.text(`https://raw.githubusercontent.com/xuanx1/sotaSentiments/main/aggregated_SOTA/${file}`);
-      allText += text + '\n\n'; // Add double newline to separate paragraphs
-      console.log(`Fetched file ${file}`);
-    } catch (error) {
-      console.error(`Error fetching file ${file}:`, error);
-    }
-  }
-  return allText.split('\n\n').filter(paragraph => paragraph.trim() !== '');
 };
 
 
