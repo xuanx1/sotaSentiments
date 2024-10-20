@@ -1,10 +1,7 @@
-//explained, corrected and refined with vscode copilot
 
-// Import each .txt file, create an array based on the order of US presidents, sort txt files by year of presidents' tenure, analyze the sentiment of each sentence and display the sentiment in red (negative) and green (positive) and draw them into coloured lines like a stock chart - OR lines moving up (positive) and down (negative) based on -ve / +ve value of words; ignore stop words
 
-//add scrolling side ways to show negative sentiment like a stock chart showing losses and gains + animation + roll over window details
 
-//OR verbs vs nouns - translate into call to action vs reference, ignore stop words
+
 // Load the sentiment library from a CDN
 const sentimentScript = document.createElement('script');
 sentimentScript.src = 'https://cdn.jsdelivr.net/npm/sentiment@5.0.2/build/sentiment.min.js';
@@ -12,8 +9,6 @@ document.head.appendChild(sentimentScript);
 
 sentimentScript.onload = () => {
   window.sentiment = new Sentiment();
-  // Call drawChart after the sentiment library is loaded
-  drawChart()
 };
 
 
@@ -84,7 +79,7 @@ const getSentimentScore = (paragraph) => {
   const stopWords = new Set(RiTa.STOP_WORDS);
   const filteredWords = paragraph.split(' ').filter(word => !stopWords.has(word.toLowerCase()));
   const filteredParagraph = filteredWords.join(' ');
-  const result = window.sentiment.analyze(filteredParagraph);
+  const result = sentiment.analyze(filteredParagraph);
   console.log(result);
   return result.score;
 };
@@ -104,10 +99,6 @@ const fetchData = async () => {
   }
   return allText.split('\n\n').filter(paragraph => paragraph.trim() !== '');
 };
-
-fetchData().then(paragraphs => {
-  console.log(paragraphs);
-});
 
 
 // Draw the sentiment chart using D3
@@ -175,45 +166,6 @@ const drawChart = async () => {
     }
 
   });
-
-
-
-
-// // Draw the sentiment line with a tracing animation
-// const path = svg.append('path')
-// .datum(lineData)
-// .attr('fill', 'none')
-// .attr('stroke', 'grey')
-// .attr('stroke-width', 0.5)
-// .attr('d', lineGenerator)
-// .attr('stroke-dasharray', function() {
-//   const length = this.getTotalLength();
-//   return `${length} ${length}`; 
-// })
-// .attr('stroke-dashoffset', function() {
-//   return this.getTotalLength();
-// })
-// .transition()
-// .delay(2000)
-// .duration(10000) // 10s
-// .ease(d3.easeLinear)
-// .attr('stroke-dashoffset', 0);
-
-// // Call hideLoadingScreen after the animation completes
-// path.on('end', hideLoadingScreen);
-
-// // Draw colored segments for positive and negative sentiment
-// lineData.forEach((d, i) => {
-//   if (i > 0) {
-//     svg.append('line')
-//       .attr('x1', xScale(i - 1))
-//       .attr('y1', yScale(lineData[i - 1].score))
-//       .attr('x2', xScale(i))
-//       .attr('y2', yScale(d.score))
-//       .attr('stroke', d.score >= 0 ? '#188d8d' : '#e95247')
-//       .attr('stroke-width', 1);
-//   }
-// });
 
 
   // x-axis labeled with presidents' names
@@ -374,6 +326,7 @@ const drawChart = async () => {
         .attr('stroke', d => d.score >= 0 ? '#188d8d' : '#e95247');
     });
 };
+
 drawChart()
 //--------------------------------------------
 
