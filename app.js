@@ -6,9 +6,7 @@
 
 //OR verbs vs nouns - translate into call to action vs reference, ignore stop words
 
-import Sentiment from 'sentiment';
-window.sentiment = new Sentiment();
-
+const sentiment = new Sentiment();
 const margin = { top: 30, right: 50, bottom: 30, left: 80 };
 
 
@@ -97,6 +95,10 @@ const fetchData = async () => {
 
   return allText.split('\n\n').filter(paragraph => paragraph.trim() !== '');
 };
+
+fetchData().then(paragraphs => {
+  console.log(paragraphs);
+});
 
 
 // Draw the sentiment chart using D3
