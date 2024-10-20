@@ -99,15 +99,14 @@ const getSentimentScore = (paragraph) => {
 const drawChart = async () => {
   const data = await fetchData();
 
-  // Define lineData globally
-  let lineData = [];
+let lineData = [];
 
-  lineData = data.map((sentence, index) => {
-    return {
-      index: index,
-      score: getSentimentScore(sentence),
-    };
-  });
+lineData = data.map((sentence, index) => {
+  return {
+    index: index,
+    score: getSentimentScore(sentence),
+  };
+});
 
   // x and "y" axises
   const width = 7000; // fit all presidents
