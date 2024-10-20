@@ -11,9 +11,10 @@ sentimentScript.src = 'https://cdn.jsdelivr.net/npm/sentiment@5.0.2/build/sentim
 document.head.appendChild(sentimentScript);
 
 sentimentScript.onload = () => {
-const sentiment = new Sentiment();
-// Your existing code that depends on the sentiment library can go here
+  window.sentiment = new Sentiment();
 };
+
+
 const margin = { top: 30, right: 50, bottom: 30, left: 80 };
 
 
@@ -27,7 +28,7 @@ const presidents = [
   { name: 'John Quincy Adams', year: 1825 },
   { name: 'Andrew Jackson', year: 1829 },
   { name: 'Martin Van Buren', year: 1837 },
-  { name: 'William Henry Harrison', year: 1841 },
+  // { name: 'William Henry Harrison', year: 1841 },
   { name: 'John Tyler', year: 1841 },
   { name: 'James K. Polk', year: 1845 },
   { name: 'Zachary Taylor', year: 1849 },
@@ -38,7 +39,7 @@ const presidents = [
   { name: 'Andrew Johnson', year: 1865 },
   { name: 'Ulysses S. Grant', year: 1869 },
   { name: 'Rutherford B. Hayes', year: 1877 },
-  { name: 'James A. Garfield', year: 1881 },
+  // { name: 'James A. Garfield', year: 1881 },
   { name: 'Chester A. Arthur', year: 1881 },
   { name: 'Grover Cleveland', year: 1885 },
   { name: 'Benjamin Harrison', year: 1889 },
@@ -461,7 +462,7 @@ const description = d3.select('#app')
   .style('color', '#0d4c4c')
   .style('animation', 'float 6s ease-in-out infinite')
   .style('transition', 'top 0.5s ease-out')
-  .html(`This visualisation shows the sentiment of each sentence in the State of the Union Addresses by every U.S. Presidents, from 1789-2021. <br/>Sentiment is visualised as a line chart, with positive sentiment in green and negative sentiment in red. The x-axis represents the sentences, <br/>and then presidents in chronological order. The sentiment score is calculated by analysing the sentiment of each sentence while ignoring<br/>filler words.<br/><br/><br/>`)
+  .html(`This visualisation shows the sentiment of each sentence in the State of the Union Addresses by every U.S. Presidents, <br/>from 1789-2021, with the exception of <span style="font-weight: bold;">William Henry Harrison (1841)</span> and <span style="font-weight: bold;">James A. Garfield (1881)</span>, who died in their <br/>first year in office without delivering a State of the Union. Sentiment is visualised as a line chart, with positive sentiment <br/>in green and negative sentiment in red. The x-axis represents the sentences, and then presidents in chronological order. <br/>The sentiment score is calculated by analysing the sentiment of each sentence while ignoring filler words.<br/><br/><br/>`)
   .append('span')
   .style('color', '#188d8d')
   .style('font-weight', 'bold')
