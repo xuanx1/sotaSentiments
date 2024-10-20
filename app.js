@@ -410,7 +410,6 @@ const drawChart = async () => {
         .style('opacity', 1)
         .attr('stroke', d => d.score >= 0 ? '#188d8d' : '#e95247');
     });
-};
 
 
 // Loading screen to camouflage parsing time --------------------------------------------
