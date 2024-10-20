@@ -84,7 +84,7 @@ const fetchData = async () => {
 
   for (const file of files) {
     try {
-      const text = await d3.text(`https://github.com/xuanx1/sotaSentiments/tree/d65ece3c13d1063c6a39e08ac72852ccdfceed7d/aggregated_SOTA/${file}`);
+      const text = await d3.text(`https://raw.githubusercontent.com/xuanx1/sotaSentiments/main/aggregated_SOTA/${file}`);
       allText += text + '\n\n'; // Add double newline to separate paragraphs
       console.log(`Fetched file ${file}`);
     } catch (error) {
