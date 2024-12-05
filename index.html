@@ -4,8 +4,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>SOTA's Sentiments</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/rita"></script>
+    <script src="sentiment-bundle.js"></script>
+    <script>
+        const Sentiment = require('sentiment');
+        const sentiment = new Sentiment();
+        const result = sentiment.analyze('I love this library!');
+        console.log(result);
+    </script>
+
     <style>
       body {
         margin: 0;

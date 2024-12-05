@@ -7,9 +7,9 @@
 //OR verbs vs nouns - translate into call to action vs reference, ignore stop words
 
 
-import * as d3 from "d3";
-import { RiTa } from "rita";
-import Sentiment from "sentiment";
+// import * as d3 from "d3";
+// import { RiTa } from "rita";
+// import Sentiment from "sentiment";
 
 
 const sentiment = new Sentiment();
@@ -92,7 +92,7 @@ const fetchData = async () => {
 
   for (const file of files) {
     try {
-      const text = await d3.text(`/aggregated_sota/${file}`);
+      const text = await d3.text(`./aggregated_sota/${file}`);
       allText += text + '\n\n'; // Add double newline to separate paragraphs
       console.log(`Fetched file ${file}`);
     } catch (error) {
