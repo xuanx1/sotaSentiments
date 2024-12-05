@@ -7,6 +7,10 @@
 //OR verbs vs nouns - translate into call to action vs reference, ignore stop words
 
 
+import * as d3 from "d3";
+import { RiTa } from "rita";
+import Sentiment from "sentiment";
+
 
 const sentiment = new Sentiment();
 
