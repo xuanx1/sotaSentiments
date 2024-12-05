@@ -92,7 +92,7 @@ const fetchData = async () => {
 
   for (const file of files) {
     try {
-      const text = await d3.text(`./aggregated_sota/${file}`);
+      const text = await d3.text(`aggregated_SOTA/${file}`);
       allText += text + '\n\n'; // Add double newline to separate paragraphs
       console.log(`Fetched file ${file}`);
     } catch (error) {
